@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+
+\usepackage{classDM}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+
+\title{Data collection report}
+\author{Rebeka Mukherjee, Archit Rathore, Yash Gangrade}
+\date{Feb 13, 2019}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item How is the data obtained?
+
+The complete data is fetched from this Kaggle dataset: \url{https://www.kaggle.com/rounakbanik/the-movies-dataset/}. The dataset is downloadable after creating a Kaggle account and comes with a public domain creative commons license.
+
+\item How large is your data?
+
+Data points include cast, crew, plot keywords, budget, revenue, posters, release dates, languages, production companies, countries, TMDB vote counts and vote averages. The compressed dataset is roughly 230 MBs.
+
+\item In what format are you storing the dataset?
+
+We want to convert the data into a graph that can further leads to spectra based analysis methods. For this purpose we are going to first convert the user ratings into vectors and use the pairwise similarities as edge weights to induce an undirected graph over the vertices (which will be movies). We are therefore going to store
+\begin{enumerate}
+	\item the rating vectors (as a matrix)
+	\item the pairwise similarities (again as a matrix)
+	\item the movie graph as an adjacency matrix
+\end{enumerate}
+
+\item Did you need to process the original data to get it into an easier, more compressed format (e.g., convert from one format to another one)?
+
+No, the data is in csv format and thus easily readable using a large number of existing frameworks.
+
+\item How would you simulate similar data?
+
+A (naive) generative model for a movie dataset can be described as following:
+	\begin{enumerate}
+		\item Sample a genre from a probability distribution over all possible genres.
+		\item Pick individuals (cast and staff like director, actors etc) from the conditional distribution P(individuals|genre)
+		\item Generate storyline by conditioning on the genre and director.
+	\end{enumerate}
+This however is extremely naive, and there should be cross interactions between 
+\end{enumerate}
+
+\end{document}
