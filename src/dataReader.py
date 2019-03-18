@@ -16,13 +16,15 @@ ratings_file = data_path + 'ratings.csv'
 # Path for serializing processed objects to disk
 movies_pkl_file = '../data/processed/movies.pkl'
 
-# Read the metadata and keywords
+# Read the metadata, keywords and cast information
 metadata = pd.read_csv(metadata_file, index_col='id')
 keywords = pd.read_csv(keywords_file, index_col='id')
+castinfo = pd.read_csv(credits_file, index_col='id')
 
 # Perform natural join on the tables using 'id' column
-print('Joining metadata and keywords')
+print('Joining metadata, keywords and cast information')
 movies = metadata.join(keywords, sort=True)
+movies = movies.join(castinfo, sort=True)
 
 
 class Movie:
@@ -42,6 +44,7 @@ class Movie:
         self.revenue = movie.revenue
         self.vote_average = movie.vote_average
         self.vote_count = movie.vote_count
+        self.cast = movie.cast
 
 
 def convert_to_list(movies_df):
@@ -64,6 +67,7 @@ def convert_to_list(movies_df):
 
 # Create a list of movie objects from the dataframe
 movie_list = convert_to_list(movies)
+print('Processed total of {} movies'.format(len(movie_list)))
 
 # Serialize the list to disk
 with open(movies_pkl_file, 'wb') as movies_pkl:
