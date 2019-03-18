@@ -46,6 +46,9 @@ class Movie:
         self.vote_count = movie.vote_count
         self.cast = movie.cast
 
+    def __repr__(self):
+        return 'ID = {}, Title = {}'.format(self.id, self.title)
+
 
 def convert_to_list(movies_df):
     """
