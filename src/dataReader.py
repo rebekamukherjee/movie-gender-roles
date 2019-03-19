@@ -3,29 +3,6 @@ from tqdm.autonotebook import tqdm
 import pickle
 import os
 
-# Define data path
-data_path = '../data/the-movies-dataset/'
-
-# All file paths
-credits_file = data_path + 'credits.csv'
-keywords_file = data_path + 'keywords.csv'
-links_file = data_path + 'links.csv'
-metadata_file = data_path + 'movies_metadata.csv'
-ratings_file = data_path + 'ratings.csv'
-
-# Path for serializing processed objects to disk
-movies_pkl_file = '../data/processed/movies.pkl'
-
-# Read the metadata, keywords and cast information
-metadata = pd.read_csv(metadata_file, index_col='id')
-keywords = pd.read_csv(keywords_file, index_col='id')
-castinfo = pd.read_csv(credits_file, index_col='id')
-
-# Perform natural join on the tables using 'id' column
-print('Joining metadata, keywords and cast information')
-movies = metadata.join(keywords, sort=True)
-movies = movies.join(castinfo, sort=True)
-
 
 class Movie:
     """
@@ -70,6 +47,29 @@ def convert_to_list(movies_df):
 
 # Create a list of movie objects from the dataframe
 if __name__ == "__main__":
+    # Define data path
+    data_path = '../data/the-movies-dataset/'
+
+    # All file paths
+    credits_file = data_path + 'credits.csv'
+    keywords_file = data_path + 'keywords.csv'
+    links_file = data_path + 'links.csv'
+    metadata_file = data_path + 'movies_metadata.csv'
+    ratings_file = data_path + 'ratings.csv'
+
+    # Path for serializing processed objects to disk
+    movies_pkl_file = '../data/processed/movies.pkl'
+
+    # Read the metadata, keywords and cast information
+    metadata = pd.read_csv(metadata_file, index_col='id')
+    keywords = pd.read_csv(keywords_file, index_col='id')
+    castinfo = pd.read_csv(credits_file, index_col='id')
+
+    # Perform natural join on the tables using 'id' column
+    print('Joining metadata, keywords and cast information')
+    movies = metadata.join(keywords, sort=True)
+    movies = movies.join(castinfo, sort=True)
+
     movie_list = convert_to_list(movies)
     print('Processed total of {} movies'.format(len(movie_list)))
 
