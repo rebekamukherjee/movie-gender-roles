@@ -69,9 +69,10 @@ def convert_to_list(movies_df):
 
 
 # Create a list of movie objects from the dataframe
-movie_list = convert_to_list(movies)
-print('Processed total of {} movies'.format(len(movie_list)))
+if __name__ == "__main__":
+    movie_list = convert_to_list(movies)
+    print('Processed total of {} movies'.format(len(movie_list)))
 
-# Serialize the list to disk
-with open(movies_pkl_file, 'wb') as movies_pkl:
-    pickle.dump(movie_list, movies_pkl)
+    # Serialize the list to disk
+    with open(movies_pkl_file, 'wb') as movies_pkl:
+        pickle.dump(movie_list, movies_pkl)
