@@ -1,7 +1,7 @@
+import ast
 import pandas as pd
 from tqdm.autonotebook import tqdm
 import pickle
-import os
 
 
 class Movie:
@@ -21,10 +21,40 @@ class Movie:
         self.revenue = movie.revenue
         self.vote_average = movie.vote_average
         self.vote_count = movie.vote_count
-        self.cast = movie.cast
+        self.cast = Cast(movie.cast)
 
     def __repr__(self):
         return 'ID = {}, Title = {}'.format(self.id, self.title)
+
+
+class Cast:
+    """
+    Store information about movie cast
+    """
+
+    def __init__(self, cast_info):
+        self.members = ast.literal_eval(cast_info)
+
+    def get_female_cast(self):
+        """
+        Get female cast members of the movie
+
+        :return: list of female cast members
+        :rtype: list
+        """
+        return [member for member in self.members if member['gender'] == 1]
+
+    def get_male_cast(self):
+        """
+        Get male cast members of the movie
+
+        :return: list of male cast members
+        :rtype: list
+        """
+        return [member for member in self.members if member['gender'] == 2]
+
+    def __repr__(self):
+        return str(self.members)
 
 
 def convert_to_list(movies_df):
@@ -37,10 +67,16 @@ def convert_to_list(movies_df):
     :rtype: list
     """
     movie_objects = []
+    failed = []
 
     for row in tqdm(movies_df.iterrows(), total=len(movies_df), desc='Converting dataframe to Movie objects'):
         movie_id, row = row
-        movie_objects.append(Movie(movie_id, row))
+        try:
+            movie_objects.append(Movie(movie_id, row))
+        except:
+            failed.append((movie_id, row))
+
+    print('Number of failures in processing = {}'.format(len(failed)))
 
     return movie_objects
 
@@ -70,8 +106,12 @@ if __name__ == "__main__":
     movies = metadata.join(keywords, sort=True)
     movies = movies.join(castinfo, sort=True)
 
+    # movie_list = convert_to_list(movies.iloc[:100])
     movie_list = convert_to_list(movies)
+
     print('Processed total of {} movies'.format(len(movie_list)))
+
+    # t = movie_list[1]
 
     # Serialize the list to disk
     with open(movies_pkl_file, 'wb') as movies_pkl:
