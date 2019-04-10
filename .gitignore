@@ -128,4 +128,4 @@ data/
 # Pyre type checker
 .pyre/
 
-data/
+data/data
