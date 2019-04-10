@@ -120,12 +120,10 @@ venv.bak/
 dmypy.json
 
 # data
-data/
+data/data
 
 # Pycharm project files
 .idea/
 
 # Pyre type checker
 .pyre/
-
-data/data
