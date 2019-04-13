@@ -121,10 +121,7 @@ dmypy.json
 
 # data
 data/data
-data/processed
-data/scraping
-data/the-movies-dataset
-
+data/
 # Pycharm project files
 .idea/
 
