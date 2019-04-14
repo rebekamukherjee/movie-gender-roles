@@ -122,7 +122,10 @@ dmypy.json
 # data
 data/data
 data/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6e7701b9f9a7e6f9917293b0636de25b81a26077
 # Pycharm project files
 .idea/
 
