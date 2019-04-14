@@ -121,6 +121,7 @@ dmypy.json
 
 # data
 data/data
+data/
 
 # Pycharm project files
 .idea/
