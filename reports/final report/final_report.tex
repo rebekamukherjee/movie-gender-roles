@@ -40,7 +40,7 @@ Though the downloaded data was in CSV format, there were some issues with the st
 \label{movie}
 \end{figure}
 
-We also wanted to convert the data into a graph that could be further used to perform spectra based analysis methods. For this purpose, we randomly selected 300 English movies whose script was available in the IMSDB website. The reason we selected only English movies is because we speculate that it is the language in which most number of movies are viewed in the United States. English movie scripts were also easily available from the IMSDB website, and easy for us to process and analyze.\\
+We also wanted to convert the data into a graph that could be further used to perform similarity based analysis methods. For this purpose, we randomly selected 300 English movies whose script was available in the IMSDB website. The reason we selected only English movies is because we speculate that it is the language in which most number of movies are viewed in the United States. English movie scripts were also easily available from the IMSDB website, and easy for us to process and analyze.\\
 
 We came up with a list of gender words (Table \ref{gender_words}) and created a bag of words vector for each of these movies based on how many times these words appeared in the script for that movie. Table \ref{bow_vectors} shows the corresponding vectors for a subset of 3 movies. \\
 
@@ -185,6 +185,9 @@ First, we built a very simple model to predict the average female-to-male cast r
 Then, we increased our feature set by creating and adding a bag of words vector from the overview text of each movie to the date of release. We used the gender words from Table \ref{gender_words} to create our bag of words. We used this to predict the female-to-male cast ratio for each movie. Here is an example of the features for the movie `Toy Story': [1995, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]. The y value for this movie is 0.333.
 
 \subsection{Similarity}
+Our second approach was to compare movies based on similarity. For this, we used the graph mentioned in section \texttt{2.1} over 300 movies where each node is a movie and the weight of the edge between two movies is the cosine similarity of the bag of words vector generated for the scripts of the two movies using the gender words mentioned in Table \ref{gender_words}. \\
+
+We used a movie within this subset with the female-to-male ratio of 1 as the seed, and looked at all nodes it was connected to with a weight greater than or equal to 0.95. Then we compared the female-to-male cast ratios of these movies to the average female-to-male cast ratio of English movies (as given in Table \ref{lang_female_male_ratio}, in order to validate our results.
 
 \subsection{Matrix Factorization}
 
@@ -239,6 +242,47 @@ After training the regression model with the extended features, the following ar
 Here we see again that the slope of the linear regression is positive, suggesting that the female-to-male ratio increases with the increase in year.
 
 \subsection{Similarity}
+We found that out of the 300 movies, the movie `Jane Eyre' had the highest female-to-male cast ratios of 3.75. We then found out all other movies in the graph that had an edge connected to `Jane Eyre'  with a weight of 0.95 or greater. Table \ref{similar_movies} lists all these movies and their corresponding female-to-male cast ratios.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabu} to 0.8\textwidth { | X[c] | X[c] | }
+\hline
+\textbf{Movie} & \textbf{Female-to-male Ratio} \\ \hline
+My Best Friend's Wedding & 1.0 \\
+Beloved & 2.5 \\
+Even Cowgirls Get the Blues & 0.875 \\
+Scream 2 & 1.737 \\
+Drop Dead Gorgeous & 1.714 \\
+Scream & 0.545 \\
+Carrie & 1.125 \\
+Aliens & 0.467 \\
+G.I. Jane & 0.182 \\
+Jane Eyre & 0.667 \\
+Stepmom & 1.667 \\
+The Long Kiss Goodnight & 0.444 \\
+Prom Night & 0.6 \\
+Heavenly Creatures & 1.5 \\
+Cruel Intentions & 1.571 \\
+All About Eve & 1.375 \\
+10 Things I Hate About You & 0.6 \\
+Friday the 13th & 0.727 \\
+Never Been Kissed & 0.75 \\
+Heathers & 0.778 \\
+Peggy Sue Got Married & 1.125 \\
+The Haunting & 1.5 \\
+Serial Mom & 1.625 \\
+The Piano & 0.5 \\
+Twilight & 0.5 \\
+The Birds & 0.875 \\ \hline
+\end{tabu}
+\end{center}
+\caption{Movies similar to `Anastasia'.}
+\label{similar_movies}
+\end{table}
+
+We know from Table \ref{lang_female_male_ratio} that the average female-to-male cast ratios for English movies is 0.566. We found that 20 movies of the 26 movie \textbf{76.9\%} more than 95\% similar to `Anastasia', a movie with female-to-male cast ratio of 1, had a female-to-male cast ratio greater than or equal to 0.566.
+
 
 \subsection{Matrix Factorization}
 
